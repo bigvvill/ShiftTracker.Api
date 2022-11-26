@@ -21,3 +21,8 @@ public class Shift
     [Required]
     public string Location { get; set; }
 }
+
+public class Shifts
+{
+    public List<Shift> ShiftList { get; set; }
+}

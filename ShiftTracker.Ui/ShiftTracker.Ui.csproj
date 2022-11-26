@@ -9,6 +9,12 @@
 
   <ItemGroup>
     <PackageReference Include="ConsoleTableExt" Version="3.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="RestSharp" Version="108.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ShiftTracker.Api\ShiftTracker.Api.csproj" />
   </ItemGroup>
 
 </Project>
