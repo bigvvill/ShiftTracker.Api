@@ -1,5 +1,7 @@
-﻿
-using ShiftTracker.Ui;
+﻿using ShiftTracker.Ui;
+using ShiftTracker.Ui.Services;
 
-ApiController apiController = new ApiController();
-apiController.GetShifts();
+GetUserInput getUserInput= new();
+getUserInput.MainMenu();
+
+Console.ReadLine();

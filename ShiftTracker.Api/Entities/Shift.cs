@@ -22,7 +22,3 @@ public class Shift
     public string Location { get; set; }
 }
 
-public class Shifts
-{
-    public List<Shift> ShiftList { get; set; }
-}
