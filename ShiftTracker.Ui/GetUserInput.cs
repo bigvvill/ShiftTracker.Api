@@ -1,4 +1,5 @@
-﻿using ShiftTracker.Api.Entities;
+﻿using Microsoft.EntityFrameworkCore.Update.Internal;
+using ShiftTracker.Api.Entities;
 using ShiftTracker.Ui.Services;
 using System;
 using System.Collections.Generic;
@@ -19,9 +20,11 @@ namespace ShiftTracker.Ui
             Console.WriteLine("Welcome to Shift Tracker!");
             Console.WriteLine("\nThis app helps you track the time you work and the money you make!");
             Console.WriteLine("\nWhat would you like to do?");
-            Console.WriteLine("\n1 - Enter Times for a Shift");
-            Console.WriteLine("2 - Display Shifts");
-            Console.WriteLine("3 - Calculate Weekly Totals");
+            Console.WriteLine("\n1 - Add a Shift");            
+            Console.WriteLine("2 - Edit a Shift");
+            Console.WriteLine("3 - Delete a Shift");
+            Console.WriteLine("4 - Calculate Weekly Totals");
+            Console.WriteLine("5 - Display Shifts");
             Console.WriteLine("0 - Quit");
 
             string menuSelection = Console.ReadLine();
@@ -33,24 +36,62 @@ namespace ShiftTracker.Ui
                     Environment.Exit(0);
                     break;
                 case "1":
-                    TimeEntry();
+                    var newShift = TimeEntry();
+                    shiftServiceUi.AddShift(newShift);
                     break;
                 case "2":
-                    shiftServiceUi.GetShifts();
+                    var updateShift = UpdateShiftEntry();
+                    shiftServiceUi.UpdateShift(updateShift);
                     Console.ReadLine();
                     break;
                 //case "3":
                 //    apiController.GetTopics("classes");
                 //    break;
+                //case "4":
+                //    apiController.GetTopics("classes");
+                //    break;
+                case "5":
+                    Console.Clear();
+                    shiftServiceUi.GetShifts();
+                    Console.ReadLine();
+                    break;
                 default:
-                    Console.WriteLine("Please make a valid choice, 0-3!\nPress Enter...");
+                    Console.WriteLine("Please make a valid choice, 0-5!\nPress Enter...");
                     Console.ReadLine();
                     MainMenu();
                     break;
             }
         }
 
-        public void TimeEntry()
+        private Shift UpdateShiftEntry()
+        {
+            Console.Clear();
+            shiftServiceUi.GetShifts();
+
+            Console.WriteLine("\nEnter the Id of the shift to edit or 0 to return to Menu;");
+
+            int currentShiftId = Int32.Parse(Console.ReadLine());
+
+            if (currentShiftId == 0)
+            {
+                MainMenu();
+            }
+
+            // TODO : Validate
+
+            var updateShift = shiftServiceUi.GetShiftById(currentShiftId);            
+
+            List<Shift> shifts = new List<Shift>();
+            shifts.Add(updateShift.Data);
+
+            TableFormat.ShowTable(shifts, "Edit");
+
+            var updateCurrentShift = TimeEntry(updateShift.Data);
+
+            return updateShift.Data;
+        }
+
+        public Shift TimeEntry()
         {
             Console.Clear();
 
@@ -157,10 +198,136 @@ namespace ShiftTracker.Ui
             currentShift.Pay = sqlHourlyRate;
             currentShift.Location = location;
 
-            ShiftServiceUi shiftServiceUi = new();
-            shiftServiceUi.AddShift(currentShift);
+            return currentShift;
 
-            CancellationToken cancellationToken = new CancellationToken();
+            //ShiftServiceUi shiftServiceUi = new();
+            //shiftServiceUi.AddShift(currentShift);
+
+            //Console.ReadLine();
+
+            //CancellationToken cancellationToken = new CancellationToken();
+            //ApiController.PostBasicAsync(currentShift, cancellationToken);
+        }
+
+        public Shift TimeEntry(Shift shift)
+        {
+            Console.Clear();
+
+            Console.WriteLine("Update Shift");
+            Console.WriteLine("\nTo Change Start Date: Enter date in yyyy-mm-dd format (press Enter to leave this field unchanged) or 0 to return to Menu:");
+            string startDate = Console.ReadLine();
+
+            if (startDate == "0")
+            {
+                MainMenu();
+            }
+            else if (startDate == "")
+            {
+                var startDateTime = shift.Start.ToString();
+                startDate = startDateTime.Substring(0, 10);
+                
+                Console.WriteLine(startDate);
+            }
+
+            // TODO : Validate
+
+            Console.WriteLine("\nTo Change Start Time: Enter time in hh:mm:ss format (press Enter to leave this field unchanged) or 0 to return to Menu:");
+            string startTime = Console.ReadLine();
+
+            if (startTime == "0")
+            {
+                MainMenu();
+            }
+            else if (startTime == "")
+            {
+                var startDateTime = shift.Start.ToString();
+                Console.WriteLine(startDateTime);
+                Console.ReadLine();
+                startTime = startDateTime.Substring(11);
+                Console.WriteLine(startDate);
+                Console.ReadLine();
+            }
+
+            // TODO : Validate
+
+            string startTimeString = $"{startDate} {startTime}";
+            DateTime shiftStart = DateTime.Parse(startTimeString);
+            string sqlShiftStart = shiftStart.ToString("yyyy-MM-ddTHH:mm:ss");
+            //Console.WriteLine(sqlShiftStart);            
+
+            Console.WriteLine("\nEnter end date in yyyy-mm-dd format (press Enter to use today as default or 0 to return to Menu):");
+            string endDate = Console.ReadLine();
+
+            if (endDate == "0")
+            {
+                MainMenu();
+            }
+            else if (endDate == "")
+            {
+                endDate = DateOnly.FromDateTime(DateTime.Now).ToString();
+                Console.WriteLine(endDate);
+            }
+
+            // TODO : Validate
+
+            Console.WriteLine("\nEnter end time in hh:mm:ss format (press Enter to use current time as default or 0 to return to Menu):");
+            string endTime = Console.ReadLine();
+
+            if (endTime == "0")
+            {
+                MainMenu();
+            }
+            else if (endTime == "")
+            {
+                endTime = TimeOnly.FromDateTime(DateTime.Now).ToString();
+                TimeOnly endTimeOnly = TimeOnly.Parse(endTime);
+                TimeSpan endTimeSpan = endTimeOnly.ToTimeSpan();
+                Console.WriteLine(endTimeSpan);
+            }
+
+            // TODO : Validate
+
+            string endTimeString = $"{endDate} {endTime}";
+            DateTime shiftEnd = DateTime.Parse(endTimeString);
+            string sqlShiftEnd = shiftEnd.ToString("yyyy-MM-ddTHH:mm:ss");
+            //Console.WriteLine(sqlShiftEnd);
+
+            Console.WriteLine("\nEnter hourly rate in dd.cc format or 0 to return to Menu:");
+            string hourlyRate = Console.ReadLine();
+
+            if (hourlyRate == "0")
+            {
+                MainMenu();
+            }
+
+            // TODO : Validate
+
+            decimal sqlHourlyRate = decimal.Parse(hourlyRate);
+
+            Console.WriteLine("\nEnter location or 0 to return to Menu:");
+            string location = Console.ReadLine();
+
+            if (location == "0")
+            {
+                MainMenu();
+            }
+
+            // TODO : Validate
+
+            Shift currentShift = new Shift();
+            currentShift.Start = shiftStart;
+            currentShift.End = shiftEnd;
+            currentShift.Pay = sqlHourlyRate;
+            currentShift.Location = location;
+
+            return currentShift;
+
+            //ShiftServiceUi shiftServiceUi = new();
+            //shiftServiceUi.AddShift(currentShift);
+
+            //Console.ReadLine();
+
+            //CancellationToken cancellationToken = new CancellationToken();
             //ApiController.PostBasicAsync(currentShift, cancellationToken);
         }
     }

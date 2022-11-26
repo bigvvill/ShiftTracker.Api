@@ -8,7 +8,7 @@ internal class TableFormat
     public static void ShowTable<T>(List<T> tableData, [AllowNull] string tableName) where T :
         class
     {
-        Console.Clear();
+        //Console.Clear();
 
         if (tableName == null)
             tableName = "";
