@@ -38,7 +38,7 @@ namespace ShiftTracker.Ui
                 case "1":
                     var newShift = TimeEntry();
                     shiftServiceUi.AddShift(newShift);
-
+                    MainMenu();
                     break;
                 case "2":
                     var updateShift = UpdateShiftEntry();
@@ -46,9 +46,11 @@ namespace ShiftTracker.Ui
                     Console.ReadLine();
                     MainMenu();
                     break;
-                //case "3":
-                //    apiController.GetTopics("classes");
-                //    break;
+                case "3":
+                    var deleteShift = DeleteShiftEntry();
+                    if (deleteShift == 0) MainMenu();
+                    shiftServiceUi.DeleteShift(deleteShift);
+                    break;
                 //case "4":
                 //    apiController.GetTopics("classes");
                 //    break;
@@ -64,6 +66,46 @@ namespace ShiftTracker.Ui
                     Console.ReadLine();
                     MainMenu();
                     break;
+            }
+        }
+
+        private int DeleteShiftEntry()
+        {
+            Console.Clear();
+            shiftServiceUi.GetShifts();
+
+            Console.WriteLine("\nEnter the Id of the shift to Delete or 0 to return to Menu;");
+
+            int currentShiftId = Int32.Parse(Console.ReadLine());
+
+            if (currentShiftId == 0)
+            {
+                MainMenu();
+            }
+
+            // TODO : Validate
+
+            var deleteShift = shiftServiceUi.GetShiftById(currentShiftId);
+
+            List<Shift> shifts = new List<Shift>();
+            shifts.Add(deleteShift.Data);
+
+            TableFormat.ShowTable(shifts, "Delete");
+
+            Console.WriteLine("\nAre you sure you want to delete this shift? \nType \"yes\" to confirm. Enter 0 or any other input to go back to Menu.");
+
+            string confirmDelete = Console.ReadLine();
+
+            
+
+            if (confirmDelete.ToLower() == "yes")
+            {
+                return currentShiftId;                
+            }
+
+            else
+            {
+                return 0;
             }
         }
 
@@ -85,10 +127,10 @@ namespace ShiftTracker.Ui
 
             var updateShift = shiftServiceUi.GetShiftById(currentShiftId);            
 
-            List<Shift> shifts = new List<Shift>();
-            shifts.Add(updateShift.Data);
+            //List<Shift> shifts = new List<Shift>();
+            //shifts.Add(updateShift.Data);
 
-            TableFormat.ShowTable(shifts, "Edit");
+            //TableFormat.ShowTable(shifts, "Edit");
 
             var updateCurrentShift = TimeEntry(updateShift.Data);
 
@@ -100,7 +142,7 @@ namespace ShiftTracker.Ui
             Console.Clear();
 
             Console.WriteLine("Time Entry");
-            Console.WriteLine("\nEnter start date in yyyy-mm-dd format (press Enter to use today as default or 0 to return to Menu):");
+            Console.WriteLine("\nEnter start date in yyyy-mm-dd format \n(press Enter to use today as default or 0 to return to Menu):");
             string startDate = Console.ReadLine();
 
             if (startDate == "0")
@@ -115,7 +157,7 @@ namespace ShiftTracker.Ui
 
             // TODO : Validate
 
-            Console.WriteLine("\nEnter start time in hh:mm:ss format (press Enter to use current time as default or 0 to return to Menu):");
+            Console.WriteLine("\nEnter start time in hh:mm:ss format \n(press Enter to use current time as default or 0 to return to Menu):");
             string startTime = Console.ReadLine();
 
             if (startTime == "0")
@@ -137,7 +179,7 @@ namespace ShiftTracker.Ui
             string sqlShiftStart = shiftStart.ToString("yyyy-MM-ddTHH:mm:ss");
             //Console.WriteLine(sqlShiftStart);            
 
-            Console.WriteLine("\nEnter end date in yyyy-mm-dd format (press Enter to use today as default or 0 to return to Menu):");
+            Console.WriteLine("\nEnter end date in yyyy-mm-dd format \n(press Enter to use today as default or 0 to return to Menu):");
             string endDate = Console.ReadLine();
 
             if (endDate == "0")
@@ -152,7 +194,7 @@ namespace ShiftTracker.Ui
 
             // TODO : Validate
 
-            Console.WriteLine("\nEnter end time in hh:mm:ss format (press Enter to use current time as default or 0 to return to Menu):");
+            Console.WriteLine("\nEnter end time in hh:mm:ss format \n(press Enter to use current time as default or 0 to return to Menu):");
             string endTime = Console.ReadLine();
 
             if (endTime == "0")
@@ -209,8 +251,15 @@ namespace ShiftTracker.Ui
         {
             Console.Clear();
 
+            var updateShift = shiftServiceUi.GetShiftById(shift.ShiftId);
+
+            List<Shift> shifts = new List<Shift>();
+            shifts.Add(updateShift.Data);
+
+            TableFormat.ShowTable(shifts, "Edit");
+
             Console.WriteLine("Update Shift");
-            Console.WriteLine("\nTo Change Start Date: Enter date in yyyy-mm-dd format (press Enter to leave this field unchanged) or 0 to return to Menu:");
+            Console.WriteLine("\nTo Change Start Date: Enter date in yyyy-mm-dd format \n(press Enter to leave this field unchanged) or 0 to return to Menu:");
             string startDate = Console.ReadLine();
 
             if (startDate == "0")
@@ -227,7 +276,7 @@ namespace ShiftTracker.Ui
 
             // TODO : Validate
 
-            Console.WriteLine("\nTo Change Start Time: Enter time in hh:mm:ss format (press Enter to leave this field unchanged) or 0 to return to Menu:");
+            Console.WriteLine("\nTo Change Start Time: Enter time in hh:mm:ss format \n(press Enter to leave this field unchanged) or 0 to return to Menu:");
             string startTime = Console.ReadLine();
 
             if (startTime == "0")
@@ -251,7 +300,7 @@ namespace ShiftTracker.Ui
             string sqlShiftStart = shiftStart.ToString("yyyy-MM-ddTHH:mm:ss");
             //Console.WriteLine(sqlShiftStart);            
 
-            Console.WriteLine("\nEnter end date in yyyy-mm-dd format (press Enter to use today as default or 0 to return to Menu):");
+            Console.WriteLine("\nTo Change End Date: Enter date in yyyy-mm-dd format \n(press Enter to leave this field unchanged) or 0 to return to Menu:");
             string endDate = Console.ReadLine();
 
             if (endDate == "0")
@@ -260,13 +309,15 @@ namespace ShiftTracker.Ui
             }
             else if (endDate == "")
             {
-                endDate = DateOnly.FromDateTime(DateTime.Now).ToString();
+                var endDateTime = shift.End.ToString();
+                endDate = endDateTime.Substring(0, 10);
+
                 Console.WriteLine(endDate);
             }
 
             // TODO : Validate
 
-            Console.WriteLine("\nEnter end time in hh:mm:ss format (press Enter to use current time as default or 0 to return to Menu):");
+            Console.WriteLine("\nTo Change Start Time: Enter time in hh:mm:ss format \n(press Enter to leave this field unchanged) or 0 to return to Menu:");
             string endTime = Console.ReadLine();
 
             if (endTime == "0")
@@ -275,10 +326,12 @@ namespace ShiftTracker.Ui
             }
             else if (endTime == "")
             {
-                endTime = TimeOnly.FromDateTime(DateTime.Now).ToString();
-                TimeOnly endTimeOnly = TimeOnly.Parse(endTime);
-                TimeSpan endTimeSpan = endTimeOnly.ToTimeSpan();
-                Console.WriteLine(endTimeSpan);
+                var endDateTime = shift.End.ToString();
+                Console.WriteLine(endDateTime);
+                Console.ReadLine();
+                endTime = endDateTime.Substring(11);
+                Console.WriteLine(endDate);
+                Console.ReadLine();
             }
 
             // TODO : Validate
@@ -288,19 +341,28 @@ namespace ShiftTracker.Ui
             string sqlShiftEnd = shiftEnd.ToString("yyyy-MM-ddTHH:mm:ss");
             //Console.WriteLine(sqlShiftEnd);
 
-            Console.WriteLine("\nEnter hourly rate in dd.cc format or 0 to return to Menu:");
+            decimal sqlHourlyRate = 0;
+
+            Console.WriteLine("\nTo Change Hourly Rate: Enter hourly rate in dd.cc format \n(press Enter to leave this field unchanged) or 0 to return to Menu:");
             string hourlyRate = Console.ReadLine();
+
+            // TODO : Validate
 
             if (hourlyRate == "0")
             {
                 MainMenu();
             }
+            else if (hourlyRate == "")
+            {
+                sqlHourlyRate = shift.Pay;
+            }
+            else
+            {               
+                sqlHourlyRate = decimal.Parse(hourlyRate);
+            }
+            
 
-            // TODO : Validate
-
-            decimal sqlHourlyRate = decimal.Parse(hourlyRate);
-
-            Console.WriteLine("\nEnter location or 0 to return to Menu:");
+            Console.WriteLine("\nTo Change Location: Enter location \n(press Enter to leave this field unchanged) or 0 to return to Menu:");
             string location = Console.ReadLine();
 
             if (location == "0")
@@ -308,9 +370,15 @@ namespace ShiftTracker.Ui
                 MainMenu();
             }
 
+            else if (location == "")
+            {
+                location = shift.Location;
+            }
+
             // TODO : Validate
 
             Shift currentShift = new Shift();
+            
             currentShift.ShiftId = shift.ShiftId;
             currentShift.Start = shiftStart;
             currentShift.End = shiftEnd;

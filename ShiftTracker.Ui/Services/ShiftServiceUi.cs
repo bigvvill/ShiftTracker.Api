@@ -32,14 +32,14 @@ public class ShiftServiceUi
     public RestResponse<Shift> GetShiftById(int id)
     {
 
-        var request = new RestRequest($"shifts/{id}");
+        var request = new RestRequest($"Shifts/{id}");
         var response = client.Execute<Shift>(request);
         return response;
     }
 
     public void AddShift(Shift shift)
     {
-        var request = new RestRequest("shifts", Method.Post);
+        var request = new RestRequest("Shifts", Method.Post);
         request.AddJsonBody(JsonConvert.SerializeObject(shift));
         var response = client.Execute<Shift>(request);
         Console.WriteLine(response.Content);
@@ -47,7 +47,7 @@ public class ShiftServiceUi
 
     public RestResponse<Shift> DeleteShift(int id)
     {
-        var request = new RestRequest($"shifts/{id}", Method.Delete);
+        var request = new RestRequest($"Shifts/{id}", Method.Delete);
         var response = client.Execute<Shift>(request);
         Console.WriteLine(response.Content);
         return response;
