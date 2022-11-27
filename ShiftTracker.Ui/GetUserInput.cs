@@ -53,7 +53,9 @@ namespace ShiftTracker.Ui
                 case "5":
                     Console.Clear();
                     shiftServiceUi.GetShifts();
+                    Console.WriteLine("Press Enter...");
                     Console.ReadLine();
+                    MainMenu();
                     break;
                 default:
                     Console.WriteLine("Please make a valid choice, 0-5!\nPress Enter...");
@@ -88,7 +90,7 @@ namespace ShiftTracker.Ui
 
             var updateCurrentShift = TimeEntry(updateShift.Data);
 
-            return updateShift.Data;
+            return updateCurrentShift;
         }
 
         public Shift TimeEntry()
@@ -315,9 +317,11 @@ namespace ShiftTracker.Ui
             // TODO : Validate
 
             Shift currentShift = new Shift();
+            currentShift.ShiftId = shift.ShiftId;
             currentShift.Start = shiftStart;
             currentShift.End = shiftEnd;
             currentShift.Pay = sqlHourlyRate;
+            currentShift.Minutes = 0;
             currentShift.Location = location;
 
             return currentShift;

@@ -55,7 +55,7 @@ public class ShiftServiceUi
 
     public void UpdateShift(Shift shift)
     {
-        var request = new RestRequest($"shifts/{shift.ShiftId}", Method.Put);
+        var request = new RestRequest($"Shifts/{shift.ShiftId}", Method.Put);
         request.AddJsonBody(JsonConvert.SerializeObject(shift));
         var response = client.Execute<Shift>(request);
         Console.WriteLine(response.Content);
