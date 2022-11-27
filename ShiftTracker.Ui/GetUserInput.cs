@@ -84,18 +84,18 @@ namespace ShiftTracker.Ui
             Console.WriteLine("\nEnter the Id of the shift to Delete or 0 to return to Menu;");
             string shiftIdInput = Console.ReadLine();
 
+            if (shiftIdInput == "0")
+            {
+                MainMenu();
+            }
+
             while (!Validation.IsIdValid(shiftIdInput) || !Validation.IsShiftIdValid(shiftIdInput))
             {
                 Console.WriteLine("Please enter a valid shift ID:\n");
                 shiftIdInput = Console.ReadLine();
             }
 
-            currentShiftId = Int32.Parse(shiftIdInput);
-
-            if (currentShiftId == 0)
-            {
-                MainMenu();
-            }            
+            currentShiftId = Int32.Parse(shiftIdInput);                   
 
             var deleteShift = shiftServiceUi.GetShiftById(currentShiftId);            
 
@@ -222,8 +222,7 @@ namespace ShiftTracker.Ui
 
             string endTimeString = $"{endDate} {endTime}";
             DateTime shiftEnd = DateTime.Parse(endTimeString);
-            string sqlShiftEnd = shiftEnd.ToString("yyyy-MM-ddTHH:mm:ss");
-            //Console.WriteLine(sqlShiftEnd);
+            string sqlShiftEnd = shiftEnd.ToString("yyyy-MM-ddTHH:mm:ss");            
 
             Console.WriteLine("\nEnter hourly rate in dd.cc format or 0 to return to Menu:");
             string hourlyRate = Console.ReadLine();
@@ -340,7 +339,7 @@ namespace ShiftTracker.Ui
             string endTimeString = $"{endDate} {endTime}";
             DateTime shiftEnd = DateTime.Parse(endTimeString);
             string sqlShiftEnd = shiftEnd.ToString("yyyy-MM-ddTHH:mm:ss");
-            //Console.WriteLine(sqlShiftEnd);
+            
 
             decimal sqlHourlyRate = 0;
 

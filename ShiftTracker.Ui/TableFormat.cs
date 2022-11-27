@@ -15,22 +15,21 @@ internal class TableFormat
 
         ConsoleTableBuilder
             .From(tableData)
-            .WithTitle("Shifts")
-            //.WithColumn(tableName)
+            .WithTitle("Shifts")            
             .WithFormat(ConsoleTableBuilderFormat.Alternative)
             .ExportAndWriteLine(TableAligntment.Center);        
     }
 
-    public static void ShowList(List<object> tableData, string tableName)
-    {
-        Console.Clear();
+    //public static void ShowList(List<object> tableData, string tableName)
+    //{
+    //    Console.Clear();
 
-        if (tableName == null)
-            tableName = "";
+    //    if (tableName == null)
+    //        tableName = "";
 
-        ConsoleTableBuilder
-            .From(tableData)
-            .WithColumn(tableName)
-            .ExportAndWriteLine();        
-    }
+    //    ConsoleTableBuilder
+    //        .From(tableData)
+    //        .WithColumn(tableName)
+    //        .ExportAndWriteLine();        
+    //}
 }
