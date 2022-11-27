@@ -79,19 +79,25 @@ namespace ShiftTracker.Ui
         {
             Console.Clear();
             shiftServiceUi.GetShifts();
+            int currentShiftId = 0;
 
             Console.WriteLine("\nEnter the Id of the shift to Delete or 0 to return to Menu;");
+            string shiftIdInput = Console.ReadLine();
 
-            int currentShiftId = Int32.Parse(Console.ReadLine());
+            while (!Validation.IsIdValid(shiftIdInput) || !Validation.IsShiftIdValid(shiftIdInput))
+            {
+                Console.WriteLine("Please enter a valid shift ID:\n");
+                shiftIdInput = Console.ReadLine();
+            }
+
+            currentShiftId = Int32.Parse(shiftIdInput);
 
             if (currentShiftId == 0)
             {
                 MainMenu();
-            }
+            }            
 
-            // TODO : Validate
-
-            var deleteShift = shiftServiceUi.GetShiftById(currentShiftId);
+            var deleteShift = shiftServiceUi.GetShiftById(currentShiftId);            
 
             List<Shift> shifts = new List<Shift>();
             shifts.Add(deleteShift.Data);
@@ -100,9 +106,7 @@ namespace ShiftTracker.Ui
 
             Console.WriteLine("\nAre you sure you want to delete this shift? \nType \"yes\" to confirm. Enter 0 or any other input to go back to Menu.");
 
-            string confirmDelete = Console.ReadLine();
-
-            
+            string confirmDelete = Console.ReadLine();            
 
             if (confirmDelete.ToLower() == "yes")
             {
@@ -121,15 +125,20 @@ namespace ShiftTracker.Ui
             shiftServiceUi.GetShifts();
 
             Console.WriteLine("\nEnter the Id of the shift to edit or 0 to return to Menu;");
+            string shiftIdInput = Console.ReadLine();            
 
-            int currentShiftId = Int32.Parse(Console.ReadLine());
+            while (!Validation.IsIdValid(shiftIdInput) || !Validation.IsShiftIdValid(shiftIdInput))
+            {
+                Console.WriteLine("Please enter a valid shift ID:\n");
+                shiftIdInput = Console.ReadLine();
+            }
+
+            int currentShiftId = Int32.Parse(shiftIdInput);
 
             if (currentShiftId == 0)
             {
                 MainMenu();
-            }
-
-            // TODO : Validate
+            }           
 
             var updateShift = shiftServiceUi.GetShiftById(currentShiftId);     
             var updateCurrentShift = TimeEntry(updateShift.Data);
@@ -169,7 +178,7 @@ namespace ShiftTracker.Ui
                 startTime = TimeOnly.FromDateTime(DateTime.Now).ToString();
                 TimeOnly startTimeOnly = TimeOnly.Parse(startTime);
                 TimeSpan startTimeSpan = startTimeOnly.ToTimeSpan();
-                Console.WriteLine(startTimeSpan);
+                Console.WriteLine(startTime);
             }
 
             // TODO : Validate
@@ -206,7 +215,7 @@ namespace ShiftTracker.Ui
                 endTime = TimeOnly.FromDateTime(DateTime.Now).ToString();
                 TimeOnly endTimeOnly = TimeOnly.Parse(endTime);
                 TimeSpan endTimeSpan = endTimeOnly.ToTimeSpan();
-                Console.WriteLine(endTimeSpan);
+                Console.WriteLine(endTime);
             }
 
             // TODO : Validate
@@ -269,8 +278,7 @@ namespace ShiftTracker.Ui
             else if (startDate == "")
             {
                 var startDateTime = shift.Start.ToString();
-                startDate = startDateTime.Substring(0, 10);
-                
+                startDate = startDateTime.Substring(0, 10);                
                 Console.WriteLine(startDate);
             }
 
@@ -285,12 +293,9 @@ namespace ShiftTracker.Ui
             }
             else if (startTime == "")
             {
-                var startDateTime = shift.Start.ToString();
-                Console.WriteLine(startDateTime);
-                Console.ReadLine();
+                var startDateTime = shift.Start.ToString();                
                 startTime = startDateTime.Substring(11);
-                Console.WriteLine(startDate);
-                Console.ReadLine();
+                Console.WriteLine(startTime);               
             }
 
             // TODO : Validate
@@ -311,7 +316,6 @@ namespace ShiftTracker.Ui
             {
                 var endDateTime = shift.End.ToString();
                 endDate = endDateTime.Substring(0, 10);
-
                 Console.WriteLine(endDate);
             }
 
@@ -327,11 +331,8 @@ namespace ShiftTracker.Ui
             else if (endTime == "")
             {
                 var endDateTime = shift.End.ToString();
-                Console.WriteLine(endDateTime);
-                Console.ReadLine();
                 endTime = endDateTime.Substring(11);
-                Console.WriteLine(endDate);
-                Console.ReadLine();
+                Console.WriteLine(endTime);
             }
 
             // TODO : Validate
