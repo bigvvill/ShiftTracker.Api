@@ -38,11 +38,13 @@ namespace ShiftTracker.Ui
                 case "1":
                     var newShift = TimeEntry();
                     shiftServiceUi.AddShift(newShift);
+
                     break;
                 case "2":
                     var updateShift = UpdateShiftEntry();
                     shiftServiceUi.UpdateShift(updateShift);
                     Console.ReadLine();
+                    MainMenu();
                     break;
                 //case "3":
                 //    apiController.GetTopics("classes");
@@ -200,15 +202,7 @@ namespace ShiftTracker.Ui
             currentShift.Pay = sqlHourlyRate;
             currentShift.Location = location;
 
-            return currentShift;
-
-            //ShiftServiceUi shiftServiceUi = new();
-            //shiftServiceUi.AddShift(currentShift);
-
-            //Console.ReadLine();
-
-            //CancellationToken cancellationToken = new CancellationToken();
-            //ApiController.PostBasicAsync(currentShift, cancellationToken);
+            return currentShift;            
         }
 
         public Shift TimeEntry(Shift shift)
@@ -324,15 +318,7 @@ namespace ShiftTracker.Ui
             currentShift.Minutes = 0;
             currentShift.Location = location;
 
-            return currentShift;
-
-            //ShiftServiceUi shiftServiceUi = new();
-            //shiftServiceUi.AddShift(currentShift);
-
-            //Console.ReadLine();
-
-            //CancellationToken cancellationToken = new CancellationToken();
-            //ApiController.PostBasicAsync(currentShift, cancellationToken);
+            return currentShift;            
         }
     }
 }
