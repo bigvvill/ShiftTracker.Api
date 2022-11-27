@@ -25,7 +25,7 @@ namespace ShiftTracker.Ui
             Console.WriteLine("3 - Delete a Shift");
             Console.WriteLine("4 - Calculate Weekly Totals");
             Console.WriteLine("5 - Display Shifts");
-            Console.WriteLine("0 - Quit");
+            Console.WriteLine("0 - Quit\n");
 
             string menuSelection = Console.ReadLine();
 
@@ -38,11 +38,14 @@ namespace ShiftTracker.Ui
                 case "1":
                     var newShift = TimeEntry();
                     shiftServiceUi.AddShift(newShift);
+                    Console.WriteLine("\nShift Added successfully.\nPress Enter...");
+                    Console.ReadLine();
                     MainMenu();
                     break;
                 case "2":
                     var updateShift = UpdateShiftEntry();
                     shiftServiceUi.UpdateShift(updateShift);
+                    Console.WriteLine("\nShift Updated succesfully.\nPress Enter...");
                     Console.ReadLine();
                     MainMenu();
                     break;
@@ -50,6 +53,9 @@ namespace ShiftTracker.Ui
                     var deleteShift = DeleteShiftEntry();
                     if (deleteShift == 0) MainMenu();
                     shiftServiceUi.DeleteShift(deleteShift);
+                    Console.WriteLine("\nShift Deleted successfully.\nPress Enter...");
+                    Console.ReadLine();
+                    MainMenu();
                     break;
                 //case "4":
                 //    apiController.GetTopics("classes");
@@ -57,7 +63,7 @@ namespace ShiftTracker.Ui
                 case "5":
                     Console.Clear();
                     shiftServiceUi.GetShifts();
-                    Console.WriteLine("Press Enter...");
+                    Console.WriteLine("\nPress Enter...");
                     Console.ReadLine();
                     MainMenu();
                     break;
@@ -125,13 +131,7 @@ namespace ShiftTracker.Ui
 
             // TODO : Validate
 
-            var updateShift = shiftServiceUi.GetShiftById(currentShiftId);            
-
-            //List<Shift> shifts = new List<Shift>();
-            //shifts.Add(updateShift.Data);
-
-            //TableFormat.ShowTable(shifts, "Edit");
-
+            var updateShift = shiftServiceUi.GetShiftById(currentShiftId);     
             var updateCurrentShift = TimeEntry(updateShift.Data);
 
             return updateCurrentShift;

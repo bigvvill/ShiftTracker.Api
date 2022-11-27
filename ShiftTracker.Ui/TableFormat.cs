@@ -15,10 +15,10 @@ internal class TableFormat
 
         ConsoleTableBuilder
             .From(tableData)
-            .WithColumn(tableName)
+            .WithTitle("Shifts")
+            //.WithColumn(tableName)
             .WithFormat(ConsoleTableBuilderFormat.Alternative)
-            .ExportAndWriteLine(TableAligntment.Center);
-        //Console.WriteLine("\n");
+            .ExportAndWriteLine(TableAligntment.Center);        
     }
 
     public static void ShowList(List<object> tableData, string tableName)
@@ -31,7 +31,6 @@ internal class TableFormat
         ConsoleTableBuilder
             .From(tableData)
             .WithColumn(tableName)
-            .ExportAndWriteLine();
-        //Console.WriteLine("\n");
+            .ExportAndWriteLine();        
     }
 }
