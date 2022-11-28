@@ -152,35 +152,18 @@ namespace ShiftTracker.Ui
             Console.WriteLine("Time Entry");
 
             ShiftEntryServiceUi dateEntryService = new();
-            var startDate = dateEntryService.GetStartDate();
-            var startTime = dateEntryService.GetStartTime();            
+
+            string startDate = dateEntryService.GetStartDate();
+            string startTime = dateEntryService.GetStartTime();            
 
             string startTimeString = $"{startDate} {startTime}";
             DateTime shiftStart = DateTime.Parse(startTimeString);
-            string sqlShiftStart = shiftStart.ToString("yyyy-MM-ddTHH:mm:ss");
             
-            string endDate = dateEntryService.GetEndDate();            
-
-            Console.WriteLine("\nEnter end time in hh:mm:ss format \n(press Enter to use current time as default or 0 to return to Menu):");
-            string endTime = Console.ReadLine();
-
-            if (endTime == "0")
-            {
-                MainMenu();
-            }
-            else if (endTime == "")
-            {
-                endTime = TimeOnly.FromDateTime(DateTime.Now).ToString();
-                TimeOnly endTimeOnly = TimeOnly.Parse(endTime);
-                TimeSpan endTimeSpan = endTimeOnly.ToTimeSpan();
-                Console.WriteLine(endTime);
-            }
-
-            // TODO : Validate
+            string endDate = dateEntryService.GetEndDate();
+            string endTime = dateEntryService.GetEndTime();            
 
             string endTimeString = $"{endDate} {endTime}";
             DateTime shiftEnd = DateTime.Parse(endTimeString);
-            string sqlShiftEnd = shiftEnd.ToString("yyyy-MM-ddTHH:mm:ss");            
 
             Console.WriteLine("\nEnter hourly rate in dd.cc format or 0 to return to Menu:");
             string hourlyRate = Console.ReadLine();
