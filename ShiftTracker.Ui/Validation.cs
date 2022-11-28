@@ -12,13 +12,13 @@ namespace ShiftTracker.Ui
     {
         internal static bool IsStringValid(string stringInput)
         {
-            foreach (char c in stringInput)
-            {
-                if (!Char.IsLetter(c) && c != '/')
-                    return false;
-            }
+            //foreach (char c in stringInput)
+            //{
+            //    if (!Char.IsLetter(c) && c != '/')
+            //        return false;
+            //}
 
-            if (String.IsNullOrEmpty(stringInput))
+            if (String.IsNullOrEmpty(stringInput) || stringInput.Length > 10)
             {
                 return false;
             }

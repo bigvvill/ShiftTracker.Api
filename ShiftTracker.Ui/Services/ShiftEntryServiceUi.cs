@@ -125,5 +125,47 @@ namespace ShiftTracker.Ui.Services
 
             return endTime;
         }
+
+        public decimal GetHourlyRate()
+        {
+            Console.WriteLine("\nEnter hourly rate in dd.cc format or 0 to return to Menu:");
+            string hourlyRate = Console.ReadLine();
+
+            if (hourlyRate == "0")
+            {
+                GetUserInput getUserInput = new();
+                getUserInput.MainMenu();
+            }
+
+            while (!Validation.IsMoneyValid(hourlyRate))
+            {
+                Console.WriteLine("Please enter Hourly Rate in the required format: \"dd.cc\".");
+                hourlyRate = Console.ReadLine();
+            }
+
+            decimal sqlHourlyRate = decimal.Parse(hourlyRate);
+
+            return sqlHourlyRate;
+        }
+
+        internal string GetLocation()
+        {
+            Console.WriteLine("\nEnter location or 0 to return to Menu:");
+            string location = Console.ReadLine();
+
+            if (location == "0")
+            {
+                GetUserInput getUserInput = new();
+                getUserInput.MainMenu();
+            }
+
+            while (!Validation.IsStringValid(location))
+            {
+                Console.WriteLine("Please enter a valid Location.");
+                location = Console.ReadLine();
+            }
+
+            return location;
+        }
     }
 }
