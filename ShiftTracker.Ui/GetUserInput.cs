@@ -149,59 +149,17 @@ namespace ShiftTracker.Ui
         public Shift TimeEntry()
         {
             Console.Clear();
-
             Console.WriteLine("Time Entry");
-            Console.WriteLine("\nEnter start date in yyyy-mm-dd format \n(press Enter to use today as default or 0 to return to Menu):");
-            string startDate = Console.ReadLine();
 
-            if (startDate == "0")
-            {
-                MainMenu();
-            }
-            else if (startDate == "")
-            {
-                startDate = DateOnly.FromDateTime(DateTime.Now).ToString();
-                Console.WriteLine(startDate);
-            }
-
-            // TODO : Validate
-
-            Console.WriteLine("\nEnter start time in hh:mm:ss format \n(press Enter to use current time as default or 0 to return to Menu):");
-            string startTime = Console.ReadLine();
-
-            if (startTime == "0")
-            {
-                MainMenu();
-            }
-            else if (startTime == "")
-            {
-                startTime = TimeOnly.FromDateTime(DateTime.Now).ToString();
-                TimeOnly startTimeOnly = TimeOnly.Parse(startTime);
-                TimeSpan startTimeSpan = startTimeOnly.ToTimeSpan();
-                Console.WriteLine(startTime);
-            }
-
-            // TODO : Validate
+            ShiftEntryServiceUi dateEntryService = new();
+            var startDate = dateEntryService.GetStartDate();
+            var startTime = dateEntryService.GetStartTime();            
 
             string startTimeString = $"{startDate} {startTime}";
             DateTime shiftStart = DateTime.Parse(startTimeString);
             string sqlShiftStart = shiftStart.ToString("yyyy-MM-ddTHH:mm:ss");
-            //Console.WriteLine(sqlShiftStart);            
-
-            Console.WriteLine("\nEnter end date in yyyy-mm-dd format \n(press Enter to use today as default or 0 to return to Menu):");
-            string endDate = Console.ReadLine();
-
-            if (endDate == "0")
-            {
-                MainMenu();
-            }
-            else if (endDate == "")
-            {
-                endDate = DateOnly.FromDateTime(DateTime.Now).ToString();
-                Console.WriteLine(endDate);
-            }
-
-            // TODO : Validate
+            
+            string endDate = dateEntryService.GetEndDate();            
 
             Console.WriteLine("\nEnter end time in hh:mm:ss format \n(press Enter to use current time as default or 0 to return to Menu):");
             string endTime = Console.ReadLine();

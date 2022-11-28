@@ -86,5 +86,33 @@ namespace ShiftTracker.Ui
 
             else return true;
         }
+
+        internal static bool IsDateValid(string dateInput)
+        {
+            DateTime fromDateValue;
+
+            var formats = new[] { "yyyy-MM-dd" };
+
+            if (!DateTime.TryParseExact(dateInput, formats, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out fromDateValue))
+            {
+                return false;
+            }
+                        
+            return true;
+        }
+
+        internal static bool IsTimeValid(string? timeInput)
+        {
+            DateTime fromDateValue;
+
+            var formats = new[] { "HH:mm:ss" };
+
+            if (!DateTime.TryParseExact(timeInput, formats, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out fromDateValue))
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }
