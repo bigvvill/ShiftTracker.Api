@@ -189,6 +189,11 @@ namespace ShiftTracker.Ui
             TableFormat.ShowTable(shifts, "Edit");
 
             Console.WriteLine("Update Shift");
+
+            ShiftEntryServiceUi shiftEntryService = new();
+
+
+
             Console.WriteLine("\nTo Change Start Date: Enter date in yyyy-mm-dd format \n(press Enter to leave this field unchanged) or 0 to return to Menu:");
             string startDate = Console.ReadLine();
 
