@@ -190,119 +190,23 @@ namespace ShiftTracker.Ui
 
             Console.WriteLine("Update Shift");
 
-            ShiftEntryServiceUi shiftEntryService = new();
-
-
-
-            Console.WriteLine("\nTo Change Start Date: Enter date in yyyy-mm-dd format \n(press Enter to leave this field unchanged) or 0 to return to Menu:");
-            string startDate = Console.ReadLine();
-
-            if (startDate == "0")
-            {
-                MainMenu();
-            }
-            else if (startDate == "")
-            {
-                var startDateTime = shift.Start.ToString();
-                startDate = startDateTime.Substring(0, 10);                
-                Console.WriteLine(startDate);
-            }
-
-            // TODO : Validate
-
-            Console.WriteLine("\nTo Change Start Time: Enter time in hh:mm:ss format \n(press Enter to leave this field unchanged) or 0 to return to Menu:");
-            string startTime = Console.ReadLine();
-
-            if (startTime == "0")
-            {
-                MainMenu();
-            }
-            else if (startTime == "")
-            {
-                var startDateTime = shift.Start.ToString();                
-                startTime = startDateTime.Substring(11);
-                Console.WriteLine(startTime);               
-            }
-
-            // TODO : Validate
+            ShiftEntryServiceUi shiftEntryServiceUi = new();
+            string startDate = shiftEntryServiceUi.GetUpdatedStartDate(shift);
+            string startTime = shiftEntryServiceUi.GetUpdatedStartTime(shift);
 
             string startTimeString = $"{startDate} {startTime}";
             DateTime shiftStart = DateTime.Parse(startTimeString);
             string sqlShiftStart = shiftStart.ToString("yyyy-MM-ddTHH:mm:ss");
-            //Console.WriteLine(sqlShiftStart);            
 
-            Console.WriteLine("\nTo Change End Date: Enter date in yyyy-mm-dd format \n(press Enter to leave this field unchanged) or 0 to return to Menu:");
-            string endDate = Console.ReadLine();
-
-            if (endDate == "0")
-            {
-                MainMenu();
-            }
-            else if (endDate == "")
-            {
-                var endDateTime = shift.End.ToString();
-                endDate = endDateTime.Substring(0, 10);
-                Console.WriteLine(endDate);
-            }
-
-            // TODO : Validate
-
-            Console.WriteLine("\nTo Change Start Time: Enter time in hh:mm:ss format \n(press Enter to leave this field unchanged) or 0 to return to Menu:");
-            string endTime = Console.ReadLine();
-
-            if (endTime == "0")
-            {
-                MainMenu();
-            }
-            else if (endTime == "")
-            {
-                var endDateTime = shift.End.ToString();
-                endTime = endDateTime.Substring(11);
-                Console.WriteLine(endTime);
-            }
-
-            // TODO : Validate
+            string endDate = shiftEntryServiceUi.GetUpdatedEndDate(shift);
+            string endTime = shiftEntryServiceUi.GetUpdatedEndTime(shift);  
 
             string endTimeString = $"{endDate} {endTime}";
             DateTime shiftEnd = DateTime.Parse(endTimeString);
-            string sqlShiftEnd = shiftEnd.ToString("yyyy-MM-ddTHH:mm:ss");
-            
+            string sqlShiftEnd = shiftEnd.ToString("yyyy-MM-ddTHH:mm:ss");       
 
-            decimal sqlHourlyRate = 0;
-
-            Console.WriteLine("\nTo Change Hourly Rate: Enter hourly rate in dd.cc format \n(press Enter to leave this field unchanged) or 0 to return to Menu:");
-            string hourlyRate = Console.ReadLine();
-
-            // TODO : Validate
-
-            if (hourlyRate == "0")
-            {
-                MainMenu();
-            }
-            else if (hourlyRate == "")
-            {
-                sqlHourlyRate = shift.Pay;
-            }
-            else
-            {               
-                sqlHourlyRate = decimal.Parse(hourlyRate);
-            }
-            
-
-            Console.WriteLine("\nTo Change Location: Enter location \n(press Enter to leave this field unchanged) or 0 to return to Menu:");
-            string location = Console.ReadLine();
-
-            if (location == "0")
-            {
-                MainMenu();
-            }
-
-            else if (location == "")
-            {
-                location = shift.Location;
-            }
-
-            // TODO : Validate
+            decimal sqlHourlyRate = shiftEntryServiceUi.GetUpdatedHourlyRate(shift);
+            string location = shiftEntryServiceUi.GetUpdatedLocation(shift);   
 
             Shift currentShift = new Shift();
             
