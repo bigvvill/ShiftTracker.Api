@@ -81,7 +81,7 @@ namespace ShiftTracker.Ui
             shiftServiceUi.GetShifts();
             int currentShiftId = 0;
 
-            Console.WriteLine("\nEnter the Id of the shift to Delete or 0 to return to Menu;");
+            Console.WriteLine("\nEnter the Id of the shift to Delete or 0 to return to Menu");
             string shiftIdInput = Console.ReadLine();
 
             if (shiftIdInput == "0")
@@ -124,7 +124,7 @@ namespace ShiftTracker.Ui
             Console.Clear();
             shiftServiceUi.GetShifts();
 
-            Console.WriteLine("\nEnter the Id of the shift to edit or 0 to return to Menu;");
+            Console.WriteLine("\nEnter the Id of the shift to edit or 0 to return to Menu");
             string shiftIdInput = Console.ReadLine(); 
             
             if (shiftIdInput == "0")
