@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Update.Internal;
+﻿using Microsoft.CodeAnalysis.Completion;
+using Microsoft.EntityFrameworkCore.Update.Internal;
 using ShiftTracker.Api.Entities;
 using ShiftTracker.Ui.Services;
 using System;
@@ -57,9 +58,9 @@ namespace ShiftTracker.Ui
                     Console.ReadLine();
                     MainMenu();
                     break;
-                //case "4":
-                //    apiController.GetTopics("classes");
-                //    break;
+                case "4":
+                    var getTotals = TotalsEntry();
+                    break;
                 case "5":
                     Console.Clear();
                     shiftServiceUi.GetShifts();
@@ -73,6 +74,33 @@ namespace ShiftTracker.Ui
                     MainMenu();
                     break;
             }
+        }
+
+        private List<string> TotalsEntry()
+        {
+            List<string> totals = new();
+
+            Console.Clear();
+            Console.WriteLine("Calculate Totals");
+
+            Console.WriteLine("\nPlease enter 1st date of pay period:\n");
+
+            ShiftEntryServiceUi shiftEntryService = new();
+
+            string startDate = shiftEntryService.GetStartDate();
+            string startTime = shiftEntryService.GetStartTime();
+
+            string startTimeString = $"{startDate} {startTime}";
+            DateTime shiftStart = DateTime.Parse(startTimeString);
+
+            Console.WriteLine("\nPlease enter last date of pay period:\n");
+
+            string endDate = shiftEntryService.GetEndDate();
+            string endTime = shiftEntryService.GetEndTime();
+
+
+
+            return totals;
         }
 
         private int DeleteShiftEntry()
