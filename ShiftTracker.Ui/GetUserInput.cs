@@ -125,7 +125,12 @@ namespace ShiftTracker.Ui
             shiftServiceUi.GetShifts();
 
             Console.WriteLine("\nEnter the Id of the shift to edit or 0 to return to Menu;");
-            string shiftIdInput = Console.ReadLine();            
+            string shiftIdInput = Console.ReadLine(); 
+            
+            if (shiftIdInput == "0")
+            {
+                MainMenu();
+            }
 
             while (!Validation.IsIdValid(shiftIdInput) || !Validation.IsShiftIdValid(shiftIdInput))
             {
@@ -133,12 +138,7 @@ namespace ShiftTracker.Ui
                 shiftIdInput = Console.ReadLine();
             }
 
-            int currentShiftId = Int32.Parse(shiftIdInput);
-
-            if (currentShiftId == 0)
-            {
-                MainMenu();
-            }           
+            int currentShiftId = Int32.Parse(shiftIdInput);                       
 
             var updateShift = shiftServiceUi.GetShiftById(currentShiftId);     
             var updateCurrentShift = TimeEntry(updateShift.Data);

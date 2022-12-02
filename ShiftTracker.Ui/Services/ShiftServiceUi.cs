@@ -23,6 +23,10 @@ public class ShiftServiceUi
             string rawResponse = response.Content;
 
             var serialize = JsonConvert.DeserializeObject<List<Shift>>(rawResponse);
+            for (int i = 0; i< serialize.Count; i++)
+            {
+                serialize[i].Pay = Math.Round(serialize[i].Pay, 2);
+            }            
 
             TableFormat.ShowTable(serialize, "Shifts");
 
@@ -42,14 +46,14 @@ public class ShiftServiceUi
         var request = new RestRequest("Shifts", Method.Post);
         request.AddJsonBody(JsonConvert.SerializeObject(shift));
         var response = client.Execute<Shift>(request);
-        //Console.WriteLine(response.Content);
+        
     }
 
     public RestResponse<Shift> DeleteShift(int id)
     {
         var request = new RestRequest($"Shifts/{id}", Method.Delete);
         var response = client.Execute<Shift>(request);
-        //Console.WriteLine(response.Content);
+        
         return response;
     }
 
@@ -58,7 +62,7 @@ public class ShiftServiceUi
         var request = new RestRequest($"Shifts/{shift.ShiftId}", Method.Put);
         request.AddJsonBody(JsonConvert.SerializeObject(shift));
         var response = client.Execute<Shift>(request);
-        //Console.WriteLine(response.Content);
+        
     }
 }
 
