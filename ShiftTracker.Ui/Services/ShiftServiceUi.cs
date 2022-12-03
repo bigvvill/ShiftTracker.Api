@@ -106,10 +106,11 @@ public class ShiftServiceUi
             TableFormat.ShowTable(payPeriod, "Shifts");
 
             hoursWorked = minutesWorked / 60;
-            hoursWorked = Math.Round(hoursWorked, 2);            
+            hoursWorked = Math.Round(hoursWorked, 2);
 
-            Console.WriteLine($"Gross Pay: ${grossPay}");
-            Console.WriteLine($"Hours: {hoursWorked}");
+            Console.WriteLine($"\tPay Period from {payPeriodDates[0]} to {payPeriodDates[1]}");
+
+            Console.WriteLine($"\n\tHours: {hoursWorked}\tGross Pay: ${grossPay}");           
         }
     }
 }
