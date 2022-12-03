@@ -64,5 +64,53 @@ public class ShiftServiceUi
         var response = client.Execute<Shift>(request);
         
     }
+
+    internal void GetPayPeriod(List<DateTime> payPeriodDates)
+    {
+        var request = new RestRequest("Shifts");
+        var response = client.Execute(request);
+
+        if (response.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            string rawResponse = response.Content;
+            decimal grossPay = 0;
+            decimal minutesWorked = 0;
+            decimal hoursWorked = 0;
+
+            var serialize = JsonConvert.DeserializeObject<List<Shift>>(rawResponse);
+            for (int i = 0; i < serialize.Count; i++)
+            {
+                serialize[i].Pay = Math.Round(serialize[i].Pay, 2);
+            }
+
+            List<Shift> payPeriod = new();
+
+            for (int j = 0; j < serialize.Count; j++)
+            {
+                if (serialize[j].Start >= payPeriodDates[0] && serialize[j].End <= payPeriodDates[1])
+                {
+                    payPeriod.Add(serialize[j]);
+                    grossPay += serialize[j].Pay;
+                    minutesWorked += serialize[j].Minutes;
+                }           
+            }
+
+            if (payPeriod.Count == 0)
+            {
+                Console.WriteLine("\nNo records found.");
+                Console.ReadLine();
+                GetUserInput getUserInput = new GetUserInput();
+                getUserInput.MainMenu();
+            }
+
+            TableFormat.ShowTable(payPeriod, "Shifts");
+
+            hoursWorked = minutesWorked / 60;
+            hoursWorked = Math.Round(hoursWorked, 2);            
+
+            Console.WriteLine($"Gross Pay: ${grossPay}");
+            Console.WriteLine($"Hours: {hoursWorked}");
+        }
+    }
 }
 

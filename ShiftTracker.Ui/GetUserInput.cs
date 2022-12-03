@@ -24,7 +24,7 @@ namespace ShiftTracker.Ui
             Console.WriteLine("\n1 - Add a Shift");            
             Console.WriteLine("2 - Edit a Shift");
             Console.WriteLine("3 - Delete a Shift");
-            Console.WriteLine("4 - Calculate Weekly Totals");
+            Console.WriteLine("4 - Calculate Pay Period");
             Console.WriteLine("5 - Display Shifts");
             Console.WriteLine("0 - Quit\n");
 
@@ -59,7 +59,12 @@ namespace ShiftTracker.Ui
                     MainMenu();
                     break;
                 case "4":
+                    Console.Clear();
                     var getTotals = TotalsEntry();
+                    shiftServiceUi.GetPayPeriod(getTotals);
+                    Console.WriteLine("\nPress Enter...");
+                    Console.ReadLine();
+                    MainMenu();
                     break;
                 case "5":
                     Console.Clear();
@@ -76,9 +81,9 @@ namespace ShiftTracker.Ui
             }
         }
 
-        private List<string> TotalsEntry()
+        private List<DateTime> TotalsEntry()
         {
-            List<string> totals = new();
+            List<DateTime> totals = new();
 
             Console.Clear();
             Console.WriteLine("Calculate Totals");
@@ -88,7 +93,7 @@ namespace ShiftTracker.Ui
             ShiftEntryServiceUi shiftEntryService = new();
 
             string startDate = shiftEntryService.GetStartDate();
-            string startTime = shiftEntryService.GetStartTime();
+            string startTime = "00:00:00";
 
             string startTimeString = $"{startDate} {startTime}";
             DateTime shiftStart = DateTime.Parse(startTimeString);
@@ -96,9 +101,13 @@ namespace ShiftTracker.Ui
             Console.WriteLine("\nPlease enter last date of pay period:\n");
 
             string endDate = shiftEntryService.GetEndDate();
-            string endTime = shiftEntryService.GetEndTime();
+            string endTime = "23:59:59";
 
+            string endTimeString = $"{endDate} {endTime}";
+            DateTime shiftEnd = DateTime.Parse(endTimeString);                       
 
+            totals.Add(shiftStart);
+            totals.Add(shiftEnd);
 
             return totals;
         }
