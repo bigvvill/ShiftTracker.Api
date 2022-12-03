@@ -21,10 +21,10 @@ public class ShiftsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Shift>>> GetShifts()
     {
-      if (_context.Shifts == null)
-      {
-          return NotFound();
-      }
+        if (_context.Shifts == null)
+        {
+            return NotFound();
+        }
         return await _context.Shifts.ToListAsync();
     }
 
@@ -32,10 +32,10 @@ public class ShiftsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<Shift>> GetShift(int id)
     {
-      if (_context.Shifts == null)
-      {
-          return NotFound();
-      }
+        if (_context.Shifts == null)
+        {
+            return NotFound();
+        }
         var shift = await _context.Shifts.FindAsync(id);
 
         if (shift == null)
@@ -82,10 +82,10 @@ public class ShiftsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Shift>> PostShift(Shift shift)
     {
-      if (_context.Shifts == null)
-      {
-          return Problem("Entity set 'ShiftTrackerApiDbContext.Shifts'  is null.");
-      }
+        if (_context.Shifts == null)
+        {
+            return Problem("Entity set 'ShiftTrackerApiDbContext.Shifts'  is null.");
+        }
 
         ShiftService shiftService = new();
         shift = shiftService.CalculateTimeAndPay(shift);
