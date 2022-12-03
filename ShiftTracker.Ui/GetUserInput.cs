@@ -1,12 +1,5 @@
-﻿using Microsoft.CodeAnalysis.Completion;
-using Microsoft.EntityFrameworkCore.Update.Internal;
-using ShiftTracker.Api.Entities;
+﻿using ShiftTracker.Api.Entities;
 using ShiftTracker.Ui.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShiftTracker.Ui
 {

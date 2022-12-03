@@ -103,6 +103,7 @@ public class ShiftServiceUi
                 getUserInput.MainMenu();
             }
 
+            Console.Clear();
             TableFormat.ShowTable(payPeriod, "Shifts");
 
             hoursWorked = minutesWorked / 60;

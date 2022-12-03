@@ -11,13 +11,7 @@ namespace ShiftTracker.Ui
     internal class Validation
     {
         internal static bool IsStringValid(string stringInput)
-        {
-            //foreach (char c in stringInput)
-            //{
-            //    if (!Char.IsLetter(c) && c != '/')
-            //        return false;
-            //}
-
+        {           
             if (String.IsNullOrEmpty(stringInput) || stringInput.Length > 10)
             {
                 return false;

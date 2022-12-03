@@ -7,9 +7,7 @@ internal class TableFormat
 {
     public static void ShowTable<T>(List<T> tableData, [AllowNull] string tableName) where T :
         class
-    {        
-        // TODO : format Pay - round
-
+    {
         if (tableName == null)
             tableName = "";
 

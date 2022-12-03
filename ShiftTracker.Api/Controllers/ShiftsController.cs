@@ -46,8 +46,7 @@ public class ShiftsController : ControllerBase
         return shift;
     }
 
-    // PUT: api/Shifts/5
-    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+    // PUT: api/Shifts/5    
     [HttpPut("{id}")]
     public async Task<IActionResult> PutShift(int id, Shift shift)
     {
@@ -79,8 +78,7 @@ public class ShiftsController : ControllerBase
         return NoContent();
     }
 
-    // POST: api/Shifts
-    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+    // POST: api/Shifts    
     [HttpPost]
     public async Task<ActionResult<Shift>> PostShift(Shift shift)
     {
