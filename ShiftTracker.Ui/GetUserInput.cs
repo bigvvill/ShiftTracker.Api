@@ -14,7 +14,7 @@ namespace ShiftTracker.Ui
             Console.WriteLine("Welcome to Shift Tracker!");
             Console.WriteLine("\nThis app helps you track the time you work and the money you make!");
             Console.WriteLine("\nWhat would you like to do?");
-            Console.WriteLine("\n1 - Add a Shift");            
+            Console.WriteLine("\n1 - Add a Shift");
             Console.WriteLine("2 - Edit a Shift");
             Console.WriteLine("3 - Delete a Shift");
             Console.WriteLine("4 - Calculate Pay Period");
@@ -97,7 +97,7 @@ namespace ShiftTracker.Ui
             string endTime = "23:59:59";
 
             string endTimeString = $"{endDate} {endTime}";
-            DateTime shiftEnd = DateTime.Parse(endTimeString);                       
+            DateTime shiftEnd = DateTime.Parse(endTimeString);
 
             totals.Add(shiftStart);
             totals.Add(shiftEnd);
@@ -125,9 +125,9 @@ namespace ShiftTracker.Ui
                 shiftIdInput = Console.ReadLine();
             }
 
-            currentShiftId = Int32.Parse(shiftIdInput);                   
+            currentShiftId = Int32.Parse(shiftIdInput);
 
-            var deleteShift = shiftServiceUi.GetShiftById(currentShiftId);            
+            var deleteShift = shiftServiceUi.GetShiftById(currentShiftId);
 
             List<Shift> shifts = new List<Shift>();
             shifts.Add(deleteShift.Data);
@@ -136,11 +136,11 @@ namespace ShiftTracker.Ui
 
             Console.WriteLine("\nAre you sure you want to delete this shift? \nType \"yes\" to confirm. Enter 0 or any other input to go back to Menu.");
 
-            string confirmDelete = Console.ReadLine();            
+            string confirmDelete = Console.ReadLine();
 
             if (confirmDelete.ToLower() == "yes")
             {
-                return currentShiftId;                
+                return currentShiftId;
             }
 
             else
@@ -155,8 +155,8 @@ namespace ShiftTracker.Ui
             shiftServiceUi.GetShifts();
 
             Console.WriteLine("\nEnter the Id of the shift to edit or 0 to return to Menu");
-            string shiftIdInput = Console.ReadLine(); 
-            
+            string shiftIdInput = Console.ReadLine();
+
             if (shiftIdInput == "0")
             {
                 MainMenu();
@@ -168,9 +168,9 @@ namespace ShiftTracker.Ui
                 shiftIdInput = Console.ReadLine();
             }
 
-            int currentShiftId = Int32.Parse(shiftIdInput);                       
+            int currentShiftId = Int32.Parse(shiftIdInput);
 
-            var updateShift = shiftServiceUi.GetShiftById(currentShiftId);     
+            var updateShift = shiftServiceUi.GetShiftById(currentShiftId);
             var updateCurrentShift = TimeEntry(updateShift.Data);
 
             return updateCurrentShift;
@@ -184,19 +184,19 @@ namespace ShiftTracker.Ui
             ShiftEntryServiceUi shiftEntryService = new();
 
             string startDate = shiftEntryService.GetStartDate();
-            string startTime = shiftEntryService.GetStartTime();            
+            string startTime = shiftEntryService.GetStartTime();
 
             string startTimeString = $"{startDate} {startTime}";
             DateTime shiftStart = DateTime.Parse(startTimeString);
-            
+
             string endDate = shiftEntryService.GetEndDate();
-            string endTime = shiftEntryService.GetEndTime();            
+            string endTime = shiftEntryService.GetEndTime();
 
             string endTimeString = $"{endDate} {endTime}";
             DateTime shiftEnd = DateTime.Parse(endTimeString);
 
             decimal sqlHourlyRate = shiftEntryService.GetHourlyRate();
-            string location = shiftEntryService.GetLocation();            
+            string location = shiftEntryService.GetLocation();
 
             Shift currentShift = new Shift();
             currentShift.Start = shiftStart;
@@ -204,7 +204,7 @@ namespace ShiftTracker.Ui
             currentShift.Pay = sqlHourlyRate;
             currentShift.Location = location;
 
-            return currentShift;            
+            return currentShift;
         }
 
         public Shift TimeEntry(Shift shift)
@@ -229,17 +229,17 @@ namespace ShiftTracker.Ui
             string sqlShiftStart = shiftStart.ToString("yyyy-MM-ddTHH:mm:ss");
 
             string endDate = shiftEntryServiceUi.GetUpdatedEndDate(shift);
-            string endTime = shiftEntryServiceUi.GetUpdatedEndTime(shift);  
+            string endTime = shiftEntryServiceUi.GetUpdatedEndTime(shift);
 
             string endTimeString = $"{endDate} {endTime}";
             DateTime shiftEnd = DateTime.Parse(endTimeString);
-            string sqlShiftEnd = shiftEnd.ToString("yyyy-MM-ddTHH:mm:ss");       
+            string sqlShiftEnd = shiftEnd.ToString("yyyy-MM-ddTHH:mm:ss");
 
             decimal sqlHourlyRate = shiftEntryServiceUi.GetUpdatedHourlyRate(shift);
-            string location = shiftEntryServiceUi.GetUpdatedLocation(shift);   
+            string location = shiftEntryServiceUi.GetUpdatedLocation(shift);
 
             Shift currentShift = new Shift();
-            
+
             currentShift.ShiftId = shift.ShiftId;
             currentShift.Start = shiftStart;
             currentShift.End = shiftEnd;
@@ -247,7 +247,7 @@ namespace ShiftTracker.Ui
             currentShift.Minutes = 0;
             currentShift.Location = location;
 
-            return currentShift;            
+            return currentShift;
         }
     }
 }
