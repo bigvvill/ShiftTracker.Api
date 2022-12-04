@@ -143,7 +143,7 @@ namespace ShiftTracker.Ui.Services
                 {
                     Console.WriteLine("Please enter Start time in the required format: \"hh:mm:ss\".");
                     startTime = Console.ReadLine();
-                }
+                }                
             }
 
             return startTime;
@@ -265,7 +265,7 @@ namespace ShiftTracker.Ui.Services
             Console.WriteLine("\nTo Change Hourly Rate: Enter hourly rate in dd.cc format \n(press Enter to leave this field unchanged) or 0 to return to Menu:");
             string hourlyRate = Console.ReadLine();
 
-            decimal sqlHourlyRate = 0;
+            decimal sqlHourlyRate = 0;            
 
             if (hourlyRate == "0")
             {

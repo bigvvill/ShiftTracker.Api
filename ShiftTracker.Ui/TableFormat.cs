@@ -13,8 +13,8 @@ internal class TableFormat
 
         ConsoleTableBuilder
             .From(tableData)
-            .WithTitle("Shifts")
+            .WithTitle("Shifts")            
             .WithFormat(ConsoleTableBuilderFormat.Alternative)
-            .ExportAndWriteLine(TableAligntment.Center);
-    }
+            .ExportAndWriteLine(TableAligntment.Center);        
+    }    
 }

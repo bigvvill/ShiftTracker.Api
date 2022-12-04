@@ -1,6 +1,11 @@
 ﻿using Newtonsoft.Json;
 using RestSharp;
 using ShiftTracker.Api.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ShiftTracker.Ui.Services;
 
@@ -18,10 +23,10 @@ public class ShiftServiceUi
             string rawResponse = response.Content;
 
             var serialize = JsonConvert.DeserializeObject<List<Shift>>(rawResponse);
-            for (int i = 0; i < serialize.Count; i++)
+            for (int i = 0; i< serialize.Count; i++)
             {
                 serialize[i].Pay = Math.Round(serialize[i].Pay, 2);
-            }
+            }            
 
             TableFormat.ShowTable(serialize, "Shifts");
 
@@ -41,14 +46,14 @@ public class ShiftServiceUi
         var request = new RestRequest("Shifts", Method.Post);
         request.AddJsonBody(JsonConvert.SerializeObject(shift));
         var response = client.Execute<Shift>(request);
-
+        
     }
 
     public RestResponse<Shift> DeleteShift(int id)
     {
         var request = new RestRequest($"Shifts/{id}", Method.Delete);
         var response = client.Execute<Shift>(request);
-
+        
         return response;
     }
 
@@ -57,7 +62,7 @@ public class ShiftServiceUi
         var request = new RestRequest($"Shifts/{shift.ShiftId}", Method.Put);
         request.AddJsonBody(JsonConvert.SerializeObject(shift));
         var response = client.Execute<Shift>(request);
-
+        
     }
 
     internal void GetPayPeriod(List<DateTime> payPeriodDates)
@@ -87,7 +92,7 @@ public class ShiftServiceUi
                     payPeriod.Add(serialize[j]);
                     grossPay += serialize[j].Pay;
                     minutesWorked += serialize[j].Minutes;
-                }
+                }           
             }
 
             if (payPeriod.Count == 0)
@@ -106,7 +111,7 @@ public class ShiftServiceUi
 
             Console.WriteLine($"\tPay Period from {payPeriodDates[0]} to {payPeriodDates[1]}");
 
-            Console.WriteLine($"\n\tHours: {hoursWorked}\tGross Pay: ${grossPay}");
+            Console.WriteLine($"\n\tHours: {hoursWorked}\tGross Pay: ${grossPay}");           
         }
     }
 }

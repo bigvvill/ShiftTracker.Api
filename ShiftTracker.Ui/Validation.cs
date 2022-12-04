@@ -1,12 +1,17 @@
 ﻿using ShiftTracker.Ui.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace ShiftTracker.Ui
 {
     internal class Validation
     {
         internal static bool IsStringValid(string stringInput)
-        {
+        {           
             if (String.IsNullOrEmpty(stringInput) || stringInput.Length > 10)
             {
                 return false;
@@ -86,7 +91,7 @@ namespace ShiftTracker.Ui
             {
                 return false;
             }
-
+                        
             return true;
         }
 
